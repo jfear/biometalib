@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: biometalib
+Version: 0.0.1
+Summary: A set of helper functions for working with biological metadata from the SRA.
+Home-page: https://github.com/jfear/biometalib
+Author: Justin Fear
+Author-email: justin.m.fear@gmail.com
+License: MIT license
+Description: UNKNOWN
+Platform: UNKNOWN

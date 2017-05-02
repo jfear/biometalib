@@ -1,0 +1,23 @@
+package:
+  name: biometalib
+  version: 0.0.1
+source:
+  git_url: https://github.com/jfear/biometalib.git
+  git_rev: master
+
+requirements:
+  build:
+    - pytest >=3.0.5
+    - pytest-runner >=2.11
+
+  run:
+    - pytest >=3.0.5
+    - pytest-runner >=2.11
+
+test:
+  imports:
+    - biometalib
+
+about:
+  home: https://github.com/jfear/biometalib
+  license: MIT

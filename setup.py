@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from setuptools import setup, find_packages
+
+with open('README') as readme_file:
+    readme = readme_file.read()
+
+requirements = [i.strip() for i in open('requirements.txt').readlines()]
+
+setup(
+    name='biometalib',
+    version='0.0.1',
+    description="A set of helper functions for working with biological metadata from the SRA.",
+    author="Justin Fear",
+    author_email='justin.m.fear@gmail.com',
+    url='https://github.com/jfear/biometalib',
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=requirements,
+    license="MIT license",
+    entry_points={
+        'console_scripts':
+        [
+        ],
+    },
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
+)
