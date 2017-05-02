@@ -1,7 +1,0 @@
-README
-biometalib.egg-info/PKG-INFO
-biometalib.egg-info/SOURCES.txt
-biometalib.egg-info/dependency_links.txt
-biometalib.egg-info/entry_points.txt
-biometalib.egg-info/requires.txt
-biometalib.egg-info/top_level.txt
