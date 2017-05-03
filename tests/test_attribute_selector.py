@@ -45,7 +45,3 @@ def test_BioAttribute(bioAttr):
     bio2 = BioAttribute(bioAttr.fn)
     assert len(bio2._storage['three']) == 1
 
-
-def test_connect_mongo():
-    biometa = connect_mongo('localhost', 27022, 'sra')
-    assert biometa.find().count() > 0
