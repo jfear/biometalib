@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 *.egg-info/
+*.cache/
 
 # Sphinx documentation
 docs/_build/

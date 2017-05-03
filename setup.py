@@ -22,7 +22,8 @@ setup(
     entry_points={
         'console_scripts':
         [
-            'initialize_biometa = biometalib.utils.initialize_biometa:main'
+            'initialize_biometa = biometalib.utils.initialize_biometa:main',
+            'attribute_selector = biometalib.utils.attribute_selector:main',
         ],
     },
     setup_requires=['pytest-runner'],
