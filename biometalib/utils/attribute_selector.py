@@ -102,6 +102,10 @@ class BioAttribute(object):
             yaml.dump(dict(updated), fh, default_flow_style=False)
 
     def _make_reverse(self):
+        """Create a reverse mapping dictionary.
+
+        Map attribute as the key to the preferred attribute as the value.
+        """
         reverse = {}
         for k, v in self._storage.items():
             reverse[k] = k
@@ -148,6 +152,7 @@ def get_list_sample_attrs(biometa):
 
 
 def autocomplete(text, state):
+    """This adds tab completion to the command line."""
     for cmd in bioAttr.current_attrs:
         if cmd.startswith(text):
             if not state:
@@ -157,6 +162,7 @@ def autocomplete(text, state):
 
 
 class bcolors:
+    """This is a quick color hack to display terminal colors."""
     HEADER = '\033[95m'
     BLUE = '\033[94m'
     GREEN = '\033[92m'
@@ -168,6 +174,7 @@ class bcolors:
 
 
 def format_examples(examples):
+    """Format examples as a table with 4 columns."""
     exp = ''
     for i, example in enumerate(examples):
         if i % 4 == 3:
@@ -178,17 +185,21 @@ def format_examples(examples):
 
 
 def get_examples(attr):
+    """Get a list of values from the database."""
+    # Count the number of samples with that attribute
     num_samples = len(list(biometa.aggregate([
         {'$unwind': '$sample_attributes'},
         {'$match': {'sample_attributes.name': attr}},
     ])))
 
+    # Count the number of projects that used attribute
     num_projects = len(list(biometa.aggregate([
         {'$unwind': '$sample_attributes'},
         {'$match': {'sample_attributes.name': attr}},
         {'$group': {'_id': '$bioproject'}},
     ])))
 
+    # Get a list of all values from the attribute
     values = biometa.aggregate([
         {'$unwind': '$sample_attributes'},
         {'$match': {'sample_attributes.name': attr}},
@@ -206,36 +217,42 @@ def get_examples(attr):
     ))
 
 
-def format_similar(samples):
-    smp = ''
-    for i, sample in enumerate(samples):
-        if sample in bioAttr.current_attrs:
+def format_similar(attrs):
+    """Format similar attribute names.
+
+    Attributes that are already in our selected list color in yellow.
+    """
+    atr = ''
+    for i, attr in enumerate(attrs):
+        if attr in bioAttr.current_attrs:
             color = bcolors.YELLOW
         else:
             color = bcolors.GREEN
 
         if i % 4 == 3:
-            smp += '{0}{1:<60}{2}\n'.format(color, sample, bcolors.ENDC)
+            atr += '{0}{1:<60}{2}\n'.format(color, attr, bcolors.ENDC)
         else:
-            smp += '{0}{1:<60}{2}\t'.format(color, sample, bcolors.ENDC)
+            atr += '{0}{1:<60}{2}\t'.format(color, attr, bcolors.ENDC)
 
-    return smp
+    return atr
 
 
 def get_similar(attr):
+    """Print a list of similar attributes based on fuzzy string matching."""
     choices = list(set(sample_attrs).union(set(bioAttr.current_attrs)))
-    similar = [x[0] for x in process.extract(attr, sample_attrs, limit=21)]
+    similar = [x[0] for x in process.extract(attr, sample_attrs, limit=20)]
     similar_fmt = format_similar(similar)
     print("Current similar attributes you have already selected include:\n\n{0}".format(similar_fmt))
 
 
 def get_user_input(attr):
+    """Interact with the user."""
     print('Current Attribute: \t{0}{1:>30}{2}\n'.format(bcolors.RED, attr, bcolors.ENDC))
 
     ui = input(dedent("""
           Type "e" to get examples or "s" to get a list of similar attributes.
           Do you want to keep, rename, or ignore this attribute?
-          [k/r/i/e]: """))
+          [k/r/i/e/s]: """))
 
     if ui == 'k':   # Keep attribute
         bioAttr[attr] = attr
@@ -249,18 +266,18 @@ def get_user_input(attr):
         bioAttr[attr] = newName
         bioAttr.current_attrs.append(newName)
         os.system('clear')
-    elif ui == 'e':
+    elif ui == 'e':     # show example values
         get_examples(attr)
         get_user_input(attr)
-    elif ui == 's':
+    elif ui == 's':     # show similar attributes
         get_similar(attr)
         get_user_input(attr)
-    elif ui == 'n':
+    elif ui == 'n':      # skip
         os.system('clear')
         pass
-    elif ui == 'quit':
+    elif ui == 'quit':      # Exit program
         return False
-    else:
+    else:       # Something else
         print('\nType "n" if you really want to skip or "quit" to exit, otherwise select a valid option.')
         get_user_input(attr)
 

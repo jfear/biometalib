@@ -23,23 +23,28 @@ def yaml(tmpdir):
     return fn
 
 
-def test_BioAttribute(yaml):
-    # import
-    bio = BioAttribute(yaml)
+@pytest.fixture()
+def bioAttr(yaml):
+    return BioAttribute(yaml)
+
+
+def test_BioAttribute(bioAttr):
 
     # Make sure it looks right
-    assert len(bio._storage['one']) == 3
-    assert len(bio._storage['two']) == 1
+    assert len(bioAttr._storage['one']) == 3
+    assert len(bioAttr._storage['two']) == 1
+
+    # Check reverse mapping
+    assert bioAttr['Sex'] == 'sex'
 
     # Make some changes and write out
-    del(bio._storage['one'])
-    del(bio._storage['two'])
-    bio._storage['three'] = ['one']
-    bio.write_attributes()
+    bioAttr['one'] = 'three'
+    bioAttr.write_attributes()
 
     # Import again and check
-    bio2 = BioAttribute(yaml)
+    bio2 = BioAttribute(bioAttr.fn)
     assert len(bio2._storage['three']) == 1
+
 
 def test_connect_mongo():
     biometa = connect_mongo('localhost', 27022, 'sra')
