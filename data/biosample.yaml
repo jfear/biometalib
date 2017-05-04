@@ -1,0 +1,42 @@
+sample_name:
+  - sample_name
+sample_title:
+  - sample_title
+organism:
+  - organism
+strain:
+  - strain
+isolate:
+  - isolate
+age:
+  - age
+dev_stage:
+  - dev_stage
+sex:
+  - sex
+tissue:
+  - tissue
+biomaterial_provider:
+  - biomaterial_provider
+cell_line:
+  - cell_line
+cell_subtype:
+  - cell_subtype
+cell_type:
+  - cell_type
+culture_collection:
+  - culture_collection
+genotype:
+  - genotype
+growth_protocol:
+  - growth_protocol
+isolation_source:
+  - isolation_source
+phenotype:
+  - phenotype
+sample_type:
+  - sample_type
+treatment:
+  - treatment
+description:
+  - description

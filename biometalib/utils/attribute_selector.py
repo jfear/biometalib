@@ -36,6 +36,15 @@ def arguments():
     db_args.add_argument("--db", dest="db", action='store', required=True,
                         help="Name of the mongo database containing the biometa collection.")
 
+    db_args.add_argument("--username", dest="username", action='store', required=False,
+                        help="MongoDB username to connect with.")
+
+    db_args.add_argument("--password", dest="password", action='store', required=False,
+                        help="MongoDB password.")
+
+    db_args.add_argument("--authenticationDatabase", dest="authDB", action='store', required=False,
+                        help="MongoDB database to authenticate against.")
+
     config.add_argument("--config", dest="config", action='store', required=True,
                         help="YAML file to store attribute decisions")
 
@@ -135,8 +144,10 @@ class BioAttribute(object):
         return self._reverse.items()
 
 
-def connect_mongo(host, port, db):
+def connect_mongo(host, port, db, u, p, auth_db):
     client = MongoClient(host=host, port=port)
+    if (u is not None) & (p is not None) & (auth_db is not None):
+        client[auth_db].authenticate(u, p)
     db = client[db]
     return db['biometa']
 
@@ -209,12 +220,10 @@ def get_examples(attr):
     ])
 
     exp = format_examples(set([x['_id'] for x in values]))
-    print(dedent(
-        """\
+    print(dedent( """
         There were {0}{2:,}{1} BioSamples and {0}{3:,}{1} BioProjects that had this attribute.
         Here are the values:\n\n{4}\n
-        """.format(bcolors.YELLOW, bcolors.ENDC, num_samples, num_projects, exp)
-    ))
+        """.format(bcolors.YELLOW, bcolors.ENDC, num_samples, num_projects, exp)))
 
 
 def format_similar(attrs):
@@ -296,7 +305,7 @@ def main():
 
     # connect to db
     global biometa
-    biometa = connect_mongo(args.host, args.port, args.db)
+    biometa = connect_mongo(args.host, args.port, args.db, args.username, args.password, args.authDB)
 
     # Get list of column attributes
     global sample_attrs
@@ -306,6 +315,7 @@ def main():
     filter_attrs = [x for x in sample_attrs if x not in bioAttr]
 
     # Iterate over novel attributes and figure out what to do with them
+    os.system('clear')
     print(dedent("""
                  Welcome to the attribute selector. This is tool is intended in
                  helping come up with a list of sample attribute types. There
