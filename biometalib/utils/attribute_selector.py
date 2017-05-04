@@ -36,6 +36,15 @@ def arguments():
     db_args.add_argument("--db", dest="db", action='store', required=True,
                         help="Name of the mongo database containing the biometa collection.")
 
+    db_args.add_argument("--username", dest="username", action='store', required=False,
+                        help="MongoDB username to connect with.")
+
+    db_args.add_argument("--password", dest="password", action='store', required=False,
+                        help="MongoDB password.")
+
+    db_args.add_argument("--authenticationDatabase", dest="authDB", action='store', required=False,
+                        help="MongoDB database to authenticate against.")
+
     config.add_argument("--config", dest="config", action='store', required=True,
                         help="YAML file to store attribute decisions")
 
@@ -135,8 +144,10 @@ class BioAttribute(object):
         return self._reverse.items()
 
 
-def connect_mongo(host, port, db):
+def connect_mongo(host, port, db, u, p, auth_db):
     client = MongoClient(host=host, port=port)
+    if (u is not None) & (p is not None) & (auth_db is not None):
+        client[auth_db].authenticate(u, p)
     db = client[db]
     return db['biometa']
 
@@ -296,7 +307,7 @@ def main():
 
     # connect to db
     global biometa
-    biometa = connect_mongo(args.host, args.port, args.db)
+    biometa = connect_mongo(args.host, args.port, args.db, args.username, args.password, args.authDB)
 
     # Get list of column attributes
     global sample_attrs
