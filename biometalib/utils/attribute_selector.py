@@ -324,12 +324,13 @@ def main():
                  changes will be saved to your YAML.\n\n
                  """.format(bcolors.YELLOW, len(filter_attrs), bcolors.ENDC)))
 
-    for attr in sorted(filter_attrs):
-        if get_user_input(attr) is not None:
-            break
-
-    # Write results
-    bioAttr.write_attributes()
+    try:
+        for attr in sorted(filter_attrs):
+            if get_user_input(attr) is not None:
+                break
+    finally:
+        # Write results
+        bioAttr.write_attributes()
 
 
 if __name__ == '__main__':
