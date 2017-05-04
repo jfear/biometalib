@@ -21,7 +21,7 @@ class Annotation(EmbeddedDocument):
     value = StringField()
 
 
-class Biometa(Document):
+class BiometaFields(Document):
     biosample = StringField(primary_key=True, required=True)
     srs = StringField()
     gsm = StringField()
@@ -46,3 +46,8 @@ class Biometa(Document):
     nlm = ListField(EmbeddedDocumentField(Annotation))
     fear = ListField(EmbeddedDocumentField(Annotation))
     user_annotation = MapField(EmbeddedDocumentField(Annotation))
+
+    meta = {'abstract': True}
+
+class Biometa(BiometaFields):
+    pass
