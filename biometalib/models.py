@@ -1,9 +1,19 @@
+from pkg_resources import resource_filename
+import yaml
+
 from mongoengine import Document, EmbeddedDocument
 from mongoengine import StringField, IntField, FloatField, \
     ListField, DictField, MapField, DateTimeField, EmbeddedDocumentField
 from mongoengine.errors import ValidationError, FieldDoesNotExist
 
 from sramongo.mongo_schema import Pubmed
+
+with open(resource_filename('biometalib', '../data/cleaned_fields.yaml'), 'r') as fh:
+    CLEANED_ATTRIBUTES = yaml.load(fh)
+
+
+CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), {k: StringField() for k in CLEANED_ATTRIBUTES.keys()})
+
 
 class Contacts(EmbeddedDocument):
     first_name = StringField()
@@ -45,9 +55,11 @@ class BiometaFields(Document):
     oliver = ListField(EmbeddedDocumentField(Annotation))
     nlm = ListField(EmbeddedDocumentField(Annotation))
     fear = ListField(EmbeddedDocumentField(Annotation))
-    user_annotation = MapField(EmbeddedDocumentField(Annotation))
+    user_annotation = MapField(EmbeddedDocumentField(CleanedAttributes))
 
     meta = {'abstract': True}
 
+
 class Biometa(BiometaFields):
     pass
+

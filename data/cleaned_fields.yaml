@@ -1,0 +1,285 @@
+# Sample name and experimental role
+sample_name:
+  type: string
+  description: >
+    For each sample, provide a concise but informative, consistent and unique
+    sample name. Replicates of the same experimental condition should ONLY be
+    distinguished by a suffix of the form "_rep1", "_rep2", etc. Every sample
+    name from a single submitter should be unique.
+sample_title:
+  type: string
+  description: A brief description of the sample (one sentence).
+role:
+  type: string
+  description: >
+    Specify the role of the biosample in this study as "observational" (studied
+    in its own right), "treatment" (informative when compared to some control),
+    or "control" (control for some treatment, including mock/sham conditions).
+    For experimental designs with multiple variables, a sample may be a control
+    in one sense and a treatment in another - if so, specify multiple roles
+    using multiple columns.
+reference_sample:
+  type: string
+  description: >
+    For "treatment" samples, list the "sample_name" for another sample from
+    this study that provides the best control reference(s) for pairwise
+    comparison(s). One need list only the first replicate. If sample is a
+    "control" or "observational" sample, leave blank.
+
+# Species and genetic background
+organism:
+  type: string
+  description: >
+    The most descriptive organism name for this sample (to the species, if
+    relevant). For interspecific hybrids, list maternal then paternal species:
+    e.g., Drosophila melanogaster x Drosophila simulans. For metagenomic
+    samples, use general terms to describe it: e.g., insect gut metagenome.
+  cv: ncbi_taxonomy
+sample_type:
+  type: string
+  description: >
+    Sample type: whole organism, tissue, isolated cells, primary cell line,
+    immortalized cell line, metagenomic or synthetic.
+  cv: fb_biosample_type
+scope:
+  type: string
+  description: >
+    Indicate if the sample is monoisolate, multiisolate, multi-species, environment.
+  cv: fb_biosample_scope
+organism_host:
+  type: string
+  description: >
+    When isolating symbionts and parasites from a host species, indicate the
+    host species here: e.g., if Wolbachia were collected from Drosophila
+    simulans, indicate D. simulans here.
+strain:
+  type: string
+  description: >
+    Name of the strain characterized, or, the strain used as background for
+    additional genetic tools (if applicable). Use the accepted FlyBase strain
+    symbol or stock center identifier when possible.
+  cv: fb_strains
+genotype:
+  type: string
+  description: >
+    Use standard Drosophila genotype syntax (FlyBase or stock center symbols preferred).
+genetic_cross:
+  type: string
+  description: >
+    Describe how the biosample genotype was generated and selected: e.g.,
+     wg[1]/CyO-GFP females were mated to wg[l-12]/CyO-GFP males and progeny
+     lacking GFP were selected; e.g., vg-GAL4 females were crossed to UAS-hpo
+     males and progeny were selected.
+gene_inhibited:
+  type: string
+  description: >
+    The symbol or identifier for any gene directly targeted for inhibition by
+    experimental intervention: mutation (null or hypomorph), RNAi, antibody
+    blocking, chemical inhibition, etc. If multiple genes inhibited, use
+    multiple "gene_inhibited" columns.
+  cv: fb_genes
+gene_activated:
+  type: string
+  description: >
+    The symbol or identifier for any gene directly targeted for activation by
+    experimental intervention: mutation (gain of function), over/ectopic
+    expression, small molecule treatment or supplied as a partially purified
+    protein preparation. If multiple genes activated, use multiple
+    "gene_activated" columns.
+  cv: fb_genes
+
+# Stage, Age, and Sex
+dev_stage:
+  type: string
+  description: >
+    Indicate the developmental stage of the tissue sample isolated. Use of
+    FlyBase stage terms preferred. If indicating a stage range, list the start
+    and end points separated by a dash (-): e.g., wandering third instar larval
+    stage ; e.g., embryonic stage 1 - embryonic stage 4.
+  cv: fb_dev_stage
+age:
+  type: string
+  description: >
+    Indicate age or age range in hours (hr) or days (d), with a suffix to
+    indicate time zero: AEL (after egg laying), APF (after puparium formation), or
+    AE (after eclosion): e.g., 2-4 hr AEL; e.g., 12 hr APF; e.g., 1-2 d AE.
+sex:
+  type: string
+  description: >
+    female, male, virgin female, virgin male, mated female, mated male, mixed
+  cv: fb_sex
+circadian_phase:
+  type: string
+  description: >
+    Indicate circadian time of the sample: e.g., ZT0; e.g., ZT2 - ZT4.
+cell_cycle:
+  type: string
+  description: >
+    Indicate the cell cycle stage of the sample: e.g., G1 phase.
+  cv: go
+
+# Tissue and Cells
+tissue:
+  type: string
+  description: >
+    Indicate the tissue from which the sample was taken, or from which primary
+    cell culture was derived: e.g, wing disc; e.g., head; e.g., whole organism. Use
+    the term "carcass" only to indicate the isolation of cuticle and skeletal
+    muscle (lacks soft tissues like fat, nervous system, gut and imaginal tissue).
+  cv: fb_anatomy
+cell_type:
+  type: string
+  description: >
+    Indicate the type of cell that was isolated for this biosample (typically
+    by FACS purification or affinity isolation): e.g., intestinal stem cell.
+  cv: fb_anatomy
+cell_line:
+  type: string
+  description: >
+    Indicate the immortalized cell line used: e.g., S2R+.
+  cv: fb_cell_lines
+tissue_excluded:
+  type: string
+  description: >
+    Indicate tissue or cell type that was excluded from the sample during the
+    tissue/cell isolation process; e.g, if isolating whole animals minus gonads,
+    list "whole organism" in the "tissue" column and "gonad" in the
+    "tissue_excluded" column.
+  cv: fb_anatomy
+tissue_perturbed:
+  type: string
+  description: >
+    Indicate tissue or cell type that was perturbed in the animal studied;
+    e.g, if a gene was knocked down in mesoderm of a whole embryo sample, indicate
+    "mesoderm" as the "tissue_perturbed" and "whole organism" as the "tissue";
+    e.g., if mushroom body was ablated and adult heads collected, indicate
+    "mushroom body" as the "tissue_perturbed" and "head" as the "tissue".
+  cv: fb_anatomy
+
+# Growth Conditions and Treatments
+fly_culture_temperature:
+  type: string
+  description: >
+    If flies were raised at a constant temperature, simply indicate the
+    temperature: e.g., 25oC, 18oC. Otherwise, provide descriptive text about the
+    temperature regimen: e.g., 18oC until pupariation, then shifted to 29oC for 12
+    hr; 18oC until embyronic stage 12, then 37oC heat shock for 30 min, then 18oC
+    for 1 hr.
+cell_culture_medium:
+  type: string
+  description: >
+    Indicate the cell culture medium used for primary or immortalized cell culture.
+gene_perturbation:
+  type: string
+  description: >
+    Indicate the system used to perturb a gene in the biosample.
+  cv: fb_gene_perturbation
+cell_perturbation:
+  type: string
+  description: >
+    Indicate the system used to perturb cell/neural activity in the biosample:
+    e.g., if Kir2.1 channel was used to alter membrane potential, choose the term
+    "electrical_activity_suppressed".
+  cv: fb_biosample_treatment
+fly_culture_light_exposure:
+  type: string
+  description: >
+    If light exposure was an important experimental variable, please choose a
+    term that describes the treatment (if applicable), along with additional
+    descriptive text. If flies were simply raised using standard "light-dark"
+    cycles, leave blank.
+  cv: fb_growth_condition
+nutritional_treatment:
+  type: string
+  description: >
+    If nutrition was a study variable, choose a term that describes which
+    macronutrients were enriched or depleted. If relevant term does not represent
+    the treatment, simply provide descriptive text.
+chemical_treatment:
+  type: string
+  description: >
+    Indicate small molecule or macromolecule used in treatment, along with
+    amount/concentration and exposure/delivery information: e.g.,
+    20-hydroxyecdysone, 1uM in DMSO, 24 hr cell medium exposure; e.g., RU486, 500uM
+    in 2% sucrose, 24 hr feeding. For nutritional treatments, see the
+    "fly_culture_medium" column.
+biotic_treatment:
+  type: string
+  description: >
+    Specify the organism (e.g., microbe, parasitic wasp), or crude extract
+    thereof, used in experimental treatment of the primary organism of study, with
+    relevant dose and delivery information: e.g., Serratia marcescens Db11, od10 in
+    50mM sucrose, 3 hr feeding; Sindbis virus, 5x10E8 PFU/ml in 10mM Tris-HCl
+    pH7.5, intrathoracic injection, 1 hr recovery; L. boulardi, 2 hr wasp
+    exposure.
+  cv: fb_biotic_treatment
+physical_treatment:
+  type: string
+  description: >
+    Indicate mechanical, radiation, temperature, humidity or pressure
+    treatments, along with dosage information: e.g., ionizing radiation, 864 Gy.
+  cv: fb_physical_treatment
+other_treatment:
+  type: string
+  description: >
+    When other treatment columns dont apply (i.e., gene_perturbation,
+    cell_perturbation, chemical, physical, biotic treatments), use this
+    "other_treatment" field to describe the experimental treatment for this
+    biosample.
+phenotype:
+  type: string
+  description: >
+    When selecting individual animals or cells from a sample from a
+    heterogeneous population, use this field to specify the distinguishing
+    phenotypic characteristic of the animals/cells chosen for the biosample: e.g.,
+    early pupariation; e.g., rover-type larval feeding.
+
+# Populations
+collected_by:
+  type: string
+  description: >
+    Name of persons or institute who collected the sample.
+collection_date:
+  type: string
+  description: >
+    Date of sampling, in "DD-Mmm-YYYY" or "Mmm-YYYY" or "YYYY" format (e.g.,
+    30-Oct-1990, Oct-1990 or 1990) or ISO 8601 standard "YYYY-mm-dd", "YYYY-mm" or
+    "YYYY-mm-ddThh:mm:ss" (e.g., 1990-10-30, 1990-10 or 1990-10-30T14:41:36).
+geo_loc_name:
+  type: string
+  description: >
+    Geographical origin of the sample; use the appropriate name from this list
+    http://www.insdc.org/documents/country-qualifier-vocabulary. Use a colon to
+    separate the country or ocean from more detailed information about the
+    location: e.g., Canada: Vancouver; e.g., Germany: halfway down Zugspitze,
+    Alps.
+  cv: INSDC country list
+lat_lon:
+  type: string
+  description: >
+    The geographical coordinates of the location where the sample was
+    collected. Specify as degrees latitude and longitude in format "d[d.dddd] N|S
+    d[d.dddd] W|E": e.g., 38.98 N 77.11 W.
+isolation_source:
+  type: string
+  description: >
+    Describes the physical, environmental, and/or local geographical source of
+    the biological sample from which the sample was derived. This may include
+    season of collection or the substrate used for collection.
+population_preparation:
+  type: string
+  description: >
+    Indicate how the population was maintained before sampling: e.g., inbred;
+    e.g., isofemale crosses; e.g., haploid embryo selection.
+trait_selection:
+  type: string
+  description: >
+    Indicate the trait that was artificially selected for through multiple
+    generations of laboratory breeding: e.g., high feeding; e.g., low aggression.
+
+# General Description
+description:
+  type: string
+  description: >
+    Description of the sample. Use this field to convey aspects that cannot be
+    easily conveyed in the more dedicated columns of this template.
