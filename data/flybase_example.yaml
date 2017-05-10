@@ -1,0 +1,86 @@
+sample_name:
+  - sample_name
+sample_title:
+  - sample_title
+bioproject_accession:
+  - bioproject_accession
+role:
+  - role
+reference_sample:
+  - reference_sample
+organism:
+  - organism
+sample_type:
+  - sample_type
+scope:
+  - scope
+organism_host:
+  - organism_host
+strain:
+  - strain
+genotype:
+  - genotype
+genetic_cross:
+  - genetic_cross
+gene_inhibited:
+  - gene_inhibited
+gene_activated:
+  - gene_activated
+dev_stage:
+  - dev_stage
+age:
+  - age
+sex:
+  - sex
+circadian_phase:
+  - circadian_phase
+cell_cycle:
+  - cell_cycle
+tissue:
+  - tissue
+cell_type:
+  - cell_type
+cell_line:
+  - cell_line
+tissue_excluded:
+  - tissue_excluded
+tissue_perturbed:
+  - tissue_perturbed
+fly_culture_temperature:
+  - fly_culture_temperature
+cell_culture_medium:
+  - cell_culture_medium
+gene_perturbation:
+  - gene_perturbation
+cell_perturbation:
+  - cell_perturbation
+fly_culture_light_exposure:
+  - fly_culture_light_exposure
+nutritional_treatment:
+  - nutritional_treatment
+chemical_treatment:
+  - chemical_treatment
+biotic_treatment:
+  - biotic_treatment
+physical_treatment:
+  - physical_treatment
+other_treatment:
+  - other_treatment
+phenotype:
+  - phenotype
+collected_by:
+  - collected_by
+collection_date:
+  - collection_date
+geo_loc_name:
+  - geo_loc_name
+lat_lon:
+  - lat_lon
+isolation_source:
+  - isolation_source
+population_preparation:
+  - population_preparation
+trait_selection:
+  - trait_selection
+description:
+  - description
