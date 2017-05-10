@@ -12,7 +12,7 @@ with open(resource_filename('biometalib', '../data/cleaned_fields.yaml'), 'r') a
     CLEANED_ATTRIBUTES = yaml.load(fh)
 
 
-CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), {k: StringField() for k in CLEANED_ATTRIBUTES.keys()})
+CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), {k: StringField(help_text=CLEANED_ATTRIBUTES[k]['description']) for k in CLEANED_ATTRIBUTES.keys()})
 
 
 class Contacts(EmbeddedDocument):
