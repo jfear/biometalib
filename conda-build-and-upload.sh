@@ -8,5 +8,6 @@ if [[ $TRAVIS_BRANCH = "master" && $TRAVIS_PULL_REQUEST = "false" ]]; then
     -t $ANACONDA_TOKEN \
     upload \
     -u jfear \
+    --force \
     $(conda build --output conda-recipe)
 fi
