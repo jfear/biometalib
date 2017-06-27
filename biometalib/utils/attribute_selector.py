@@ -111,8 +111,9 @@ class BioAttribute(object):
             except:
                 updated[v] = [k, ]
 
+        updated = yaml.comments.CommentedMap(updated)
         with open(self.fn, 'w') as fh:
-            yaml.dump(dict(updated), fh, default_flow_style=False, Dumper=yaml.RoundTripDumper)
+            yaml.dump(updated, fh, default_flow_style=False, block_seq_indent=2, Dumper=yaml.RoundTripDumper)
 
     def _make_reverse(self):
         """Create a reverse mapping dictionary.
