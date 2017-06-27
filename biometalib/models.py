@@ -1,5 +1,6 @@
+from collections import OrderedDict
 from pkg_resources import resource_filename
-import yaml
+from ruamel import yaml
 
 from mongoengine import Document, EmbeddedDocument
 from mongoengine import StringField, IntField, FloatField, \
@@ -9,10 +10,10 @@ from mongoengine.errors import ValidationError, FieldDoesNotExist
 from sramongo.mongo_schema import Pubmed
 
 with open(resource_filename('biometalib', '../data/cleaned_fields.yaml'), 'r') as fh:
-    CLEANED_ATTRIBUTES = yaml.load(fh)
+    CLEANED_ATTRIBUTES = yaml.load(fh, Loader=yaml.RoundTripLoader)
 
-
-CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), {k: StringField(help_text=CLEANED_ATTRIBUTES[k]['description']) for k in CLEANED_ATTRIBUTES.keys()})
+_document = OrderedDict([(k, StringField(help_text=CLEANED_ATTRIBUTES[k]['description'])) for k in CLEANED_ATTRIBUTES.keys()])
+CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), _document)
 
 
 class Contacts(EmbeddedDocument):
