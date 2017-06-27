@@ -14,6 +14,7 @@ requirements:
     - pytest >=3.0.5
     - pytest-runner >=2.11
     - pyyaml >=3.12
+    - ruamel.yaml <0.15
     - sramongo >=0.0.1
 
   run:
@@ -24,6 +25,7 @@ requirements:
     - pytest >=3.0.5
     - pytest-runner >=2.11
     - pyyaml >=3.12
+    - ruamel.yaml <0.15
     - sramongo >=0.0.1
 
 test:
