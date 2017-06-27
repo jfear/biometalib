@@ -6,9 +6,10 @@ from textwrap import dedent
 import argparse
 from argparse import RawDescriptionHelpFormatter as Raw
 from logging import INFO, DEBUG
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
-import yaml
+from ruamel import yaml
+
 from pymongo import MongoClient
 from fuzzywuzzy import process
 
@@ -94,7 +95,7 @@ class BioAttribute(object):
         """
         if os.path.exists(self.fn):
             with open(self.fn, 'r') as fh:
-                return yaml.load(fh)
+                return yaml.load(fh, Loader=yaml.RoundTripLoader)
         else:
             return {}
 
@@ -103,19 +104,23 @@ class BioAttribute(object):
 
         Writes the current attributes to YAML.
         """
-        updated = defaultdict(list)
+        updated = OrderedDict()
         for k, v in self._reverse.items():
-            updated[v].append(k)
+            try:
+                updated[v].append(k)
+            except:
+                updated[v] = [k, ]
 
+        updated = yaml.comments.CommentedMap(updated)
         with open(self.fn, 'w') as fh:
-            yaml.dump(dict(updated), fh, default_flow_style=False)
+            yaml.dump(updated, fh, default_flow_style=False, block_seq_indent=2, Dumper=yaml.RoundTripDumper)
 
     def _make_reverse(self):
         """Create a reverse mapping dictionary.
 
         Map attribute as the key to the preferred attribute as the value.
         """
-        reverse = {}
+        reverse = OrderedDict()
         for k, v in self._storage.items():
             reverse[k] = k
             for i in v:
