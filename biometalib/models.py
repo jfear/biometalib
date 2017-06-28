@@ -3,17 +3,28 @@ from pkg_resources import resource_filename
 from ruamel import yaml
 
 from mongoengine import Document, EmbeddedDocument
-from mongoengine import StringField, IntField, FloatField, \
+from mongoengine import StringField, IntField, FloatField, BooleanField, \
     ListField, DictField, MapField, DateTimeField, EmbeddedDocumentField
 from mongoengine.errors import ValidationError, FieldDoesNotExist
 
 from sramongo.mongo_schema import Pubmed
 
+# Import Cleaned Attributes and make model
 with open(resource_filename('biometalib', 'data/cleaned_fields.yaml'), 'r') as fh:
     CLEANED_ATTRIBUTES = yaml.load(fh, Loader=yaml.RoundTripLoader)
 
-_document = OrderedDict([(k, StringField(help_text=CLEANED_ATTRIBUTES[k]['description'])) for k in CLEANED_ATTRIBUTES.keys()])
-CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), _document)
+_cleanedAttributesDocument = OrderedDict()
+for k, v in CLEANED_ATTRIBUTES.items():
+    if v['type'] == 'string':
+        _cleanedAttributesDocument[k] = StringField(help_text=v['description'])
+    elif v['type'] == 'int':
+        _cleanedAttributesDocument[k] = IntField(help_text=v['description'])
+    elif v['type'] == 'float':
+        _cleanedAttributesDocument[k] = FloatField(help_text=v['description'])
+    elif v['type'] == 'bool':
+        _cleanedAttributesDocument[k] = BooleanField(help_text=v['description'])
+
+CleanedAttributes = type('CleanedAttributes', (EmbeddedDocument, ), _cleanedAttributesDocument)
 
 
 class Contacts(EmbeddedDocument):
