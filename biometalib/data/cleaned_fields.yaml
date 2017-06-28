@@ -1,3 +1,7 @@
+checked:
+  type: bool
+  description: Indicator if this particular sample has been looked at.
+
 # Sample name and experimental role
 sample_name:
   type: string
