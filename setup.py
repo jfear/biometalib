@@ -10,7 +10,7 @@ requirements = [i.strip() for i in open('requirements.txt').readlines()]
 
 setup(
     name='biometalib',
-    version='0.0.1',
+    version='0.0.2',
     description="A set of helper functions for working with biological metadata from the SRA.",
     author="Justin Fear",
     author_email='justin.m.fear@gmail.com',
