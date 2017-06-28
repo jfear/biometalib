@@ -12,6 +12,7 @@ setup(
     name='biometalib',
     version='0.0.2',
     description="A set of helper functions for working with biological metadata from the SRA.",
+    long_description=readme,
     author="Justin Fear",
     author_email='justin.m.fear@gmail.com',
     url='https://github.com/jfear/biometalib',
