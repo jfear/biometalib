@@ -14,7 +14,7 @@ from mongoengine.errors import ValidationError
 from sramongo.mongo_schema import Ncbi
 
 sys.path.insert(0, '../')
-from biometa.models import Biometa
+from biometalib.models import Biometa
 
 logger = logging.getLogger()
 
