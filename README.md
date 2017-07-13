@@ -8,7 +8,13 @@ This library is designed for python 3+ and can be installed with `pip` or `conda
 
 ### Pip
 
-If using pip you must first install my `sramongo` package.
+Biometalib can be installed using pip.
+
+```bash
+pip install -y biometalib
+```
+
+Or the latest version can be installed by pip.
 
 ```bash
 pip install git+https://github.com/jfear/sramongo
