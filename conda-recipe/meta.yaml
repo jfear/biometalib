@@ -12,6 +12,7 @@ requirements:
   build:
     - fuzzywuzzy >=0.15.0
     - mongoengine >=0.11.0
+    - numpy <=1.13.0
     - pymongo >=3.3.0
     - pytest >=3.0.5
     - pytest-runner >=2.11
@@ -22,6 +23,7 @@ requirements:
   run:
     - fuzzywuzzy >=0.15.0
     - mongoengine >=0.11.0
+    - numpy <=1.13.0
     - pymongo >=3.3.0
     - pytest >=3.0.5
     - pytest-runner >=2.11
