@@ -69,7 +69,7 @@ def arguments():
 
 
 def connect_mongo(host, port, db, u, p, auth_db):
-    client = MongoClient(host=host, port=port)
+    client = me.connect(host=host, port=port)
     if (u is not None) & (p is not None) & (auth_db is not None):
         client[auth_db].authenticate(u, p)
     return client
