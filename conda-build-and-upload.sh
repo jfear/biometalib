@@ -4,7 +4,7 @@ export BIOMETALIB_BUILD=$(git rev-list --count `git describe --tags --abbrev=0`.
 
 conda build conda-recipe
 
-if [[ $TRAVIS_BRANCH = "master" && $TRAVIS_PULL_REQUEST = "false" ]]; then
+if [[ $TRAVIS_BRANCH = "master" && $TRAVIS_PULL_REQUEST = "false"  || $TRAVIS_TAG ]]; then
   conda install anaconda-client -y
   anaconda \
     -t $ANACONDA_TOKEN \

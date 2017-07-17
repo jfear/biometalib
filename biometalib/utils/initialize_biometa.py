@@ -7,7 +7,7 @@ the Ncbi collection. This new collection is indexed by BioSample ID.
 import sys
 import argparse
 from argparse import RawDescriptionHelpFormatter as Raw
-import logging
+from logging import INFO, DEBUG
 import json
 import mongoengine as me
 from mongoengine.context_managers import switch_db
