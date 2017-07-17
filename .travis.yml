@@ -9,3 +9,4 @@ script:
     - py.test tests/ -v
     - ./conda-build-and-upload.sh
     - ./pypi-build-and-upload.sh
+    - ./docker-build.sh
