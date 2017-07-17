@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-"""Populate fields of the Remap collection from the Ncbi collection.
+"""Populate fields of the Biometa collection from the Ncbi collection.
 
-This program initializes the Remap mongoDB collection to include fields from
-the Ncbi collection. At this time I am only copying over identifiers. Other
-metadata will eventually be copied over.
+This program initializes the Biometa mongoDB collection to include fields from
+the Ncbi collection. This new collection is indexed by BioSample ID.
 """
 import sys
+import argparse
+from argparse import RawDescriptionHelpFormatter as Raw
 import logging
 import json
 import mongoengine as me
@@ -14,12 +15,65 @@ from mongoengine.errors import ValidationError
 from sramongo.mongo_schema import Ncbi
 
 sys.path.insert(0, '../')
+from biometalib.logger import logger
 from biometalib.models import Biometa
 
-logger = logging.getLogger()
+_DEBUG = False
 
-#TODO Change to command line options
-client = me.connect(db='sra', host='localhost', port=27022)
+def arguments():
+    """Pulls in command line arguments."""
+
+    DESCRIPTION = """\
+    This program initializes the Biometa mongoDB collection to include fields from
+    the Ncbi collection. This new collection is indexed by BioSample ID.
+    """
+
+    parser = argparse.ArgumentParser(description=DESCRIPTION, formatter_class=Raw)
+
+    db_args = parser.add_argument_group('Database Arguments')
+    config = parser.add_argument_group('Inputs')
+
+    db_args.add_argument("--host", dest="host", action='store', default='localhost', required=False,
+                         help="Host running a mongo database. [default: localhost]")
+
+    db_args.add_argument("--port", dest="port", action='store', type=int, required=False, default=27017,
+                         help="Mongo database port. [default: 27017]")
+
+    db_args.add_argument("--db", dest="db", action='store', required=True,
+                        help="Name of the mongo database containing the biometa collection.")
+
+    db_args.add_argument("--username", dest="username", action='store', required=False,
+                        help="MongoDB username to connect with.")
+
+    db_args.add_argument("--password", dest="password", action='store', required=False,
+                        help="MongoDB password.")
+
+    db_args.add_argument("--authenticationDatabase", dest="authDB", action='store', required=False,
+                        help="MongoDB database to authenticate against.")
+
+    parser.add_argument("--debug", dest="debug", action='store_true', required=False,
+                        help="Turn on debug output.")
+
+    args = parser.parse_args()
+
+    # Set logging level
+    if args.debug:
+        logger.setLevel(DEBUG)
+        global _DEBUG
+        _DEBUG = True
+        logger.debug('Debugging On')
+    else:
+        logger.setLevel(INFO)
+
+    return args
+
+
+def connect_mongo(host, port, db, u, p, auth_db):
+    client = MongoClient(host=host, port=port)
+    if (u is not None) & (p is not None) & (auth_db is not None):
+        client[auth_db].authenticate(u, p)
+    return client
+
 
 def dict_uniqify(d):
     return [dict(y) for y in set(tuple(x.items()) for x in d)]
@@ -104,6 +158,15 @@ def get_descirption(ncbi):
 
 
 def main():
+    # Import commandline arguments.
+    args = arguments()
+
+    # Connect to database
+    logger.info('Connecting to MongoDB at: {}:{}'.format(args.host, args.port))
+    client = connect_mongo(args.host, args.port, args.db, args.username, args.password, args.authDB)
+
+    # Iterate over SRX and pull out useful information.
+    logger.info('Iterating over SRX')
     for ncbi in Ncbi.objects():
         biosample = ncbi.sra.sample.BioSample
 
@@ -143,7 +206,7 @@ def main():
                     **strings
                 )
             except ValidationError:
-                print(ncbi.srx)
+                logger.error('ValidationError: Skipping {}'.format(ncbi.srx))
 
 
 if __name__ == '__main__':
