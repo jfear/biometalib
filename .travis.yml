@@ -8,3 +8,5 @@ script:
     - python -c 'import biometalib; print(biometalib.__file__)'
     - py.test tests/ -v
     - ./conda-build-and-upload.sh
+    - ./pypi-build-and-upload.sh
+    - ./docker-build.sh
