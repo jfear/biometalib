@@ -51,9 +51,6 @@ def arguments():
     db_args.add_argument("--authenticationDatabase", dest="authDB", action='store', required=False,
                         help="MongoDB database to authenticate against.")
 
-    config.add_argument("--config", dest="config", action='store', required=True,
-                        help="YAML file to store attribute decisions")
-
     parser.add_argument("--debug", dest="debug", action='store_true', required=False,
                         help="Turn on debug output.")
 
