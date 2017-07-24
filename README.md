@@ -62,7 +62,7 @@ To run the attributes selector on my public version of the Biometa database type
 
 ```bash
 # Download example YAML
-$ wget -O my_attribute_selection.yaml https://raw.githubusercontent.com/jfear/biometalib/master/data/flybase_example.yaml
+$ wget -O my_attribute_selection.yaml https://raw.githubusercontent.com/jfear/biometalib/master/biometalib/data/flybase_example.yaml
 $ attribute_selector --host mongo.geneticsunderground.com --port 27022 --db sra --username sra --password oliver --authenticationDatabase user-data --config my_attribute_selection.yaml
 ```
 
