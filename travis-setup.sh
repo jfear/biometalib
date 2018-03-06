@@ -11,7 +11,6 @@ conda config --add channels defaults
 conda config --add channels bioconda
 conda config --add channels jfear
 
-conda install -y python=3.5
 conda install -y --file requirements.txt
 
 # we also want conda-build to build a conda package
