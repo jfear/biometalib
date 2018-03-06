@@ -1,4 +1,4 @@
-FROM jfear/centos7-miniconda3:py3.5
+FROM jfear/centos7-miniconda3:py3.6
 
 MAINTAINER Justin Fear <justin.m.fear@gmail.com>
 
