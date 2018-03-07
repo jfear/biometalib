@@ -15,9 +15,9 @@ requirements:
     - numpy <=1.13.0
     - pymongo >=3.3.0
     - pytest >=3.0.5
-    - pytest-runner >=2.11
+    - pytest-runner >=2.11.1
     - pyyaml >=3.12
-    - ruamel.yaml <0.15
+    - ruamel.yaml <0.15.0
     - sramongo >=0.0.2
 
   run:
@@ -26,9 +26,9 @@ requirements:
     - numpy <=1.13.0
     - pymongo >=3.3.0
     - pytest >=3.0.5
-    - pytest-runner >=2.11
+    - pytest-runner >=2.11.1
     - pyyaml >=3.12
-    - ruamel.yaml <0.15
+    - ruamel.yaml <0.15.0
     - sramongo >=0.0.2
 
 test:
